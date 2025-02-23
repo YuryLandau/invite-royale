@@ -1,12 +1,21 @@
+import { getSubscriberInviteClicks, getSubscriberInviteCount, getSubscriberRankingPosition } from '@/http/api'
 import { BadgeCheck, Medal, MousePointerClick } from 'lucide-react'
 
-export const Stats = () => {
+interface StatsProps {
+    subscriberdId: string
+}
+
+export const Stats = async ({ subscriberdId }: StatsProps) => {
+    const { count: accessCount } = await getSubscriberInviteClicks(subscriberdId)
+    const { count: inviteCount } = await getSubscriberInviteCount(subscriberdId)
+    const { position: rankingPosition } = await getSubscriberRankingPosition(subscriberdId)
+
     return (
 
         <div className="grid gap-3 md:grid-cols-3">
             <div className=" relative bg-gray-700 border border-gray-600 px-4 py-7 flex flex-col items-center justify-center gap-1 rounded-xl">
                 <span className="font-heading text-2xl font-semibold text-gray-200 leading-none">
-                    1000
+                    {accessCount}
                 </span>
 
                 <span className="text-sm text-gray-300 leading-none text-center">
@@ -18,7 +27,7 @@ export const Stats = () => {
 
             <div className="relative bg-gray-700 border border-gray-600 px-4 py-7 flex flex-col items-center justify-center gap-1 rounded-xl">
                 <span className="font-heading text-2xl font-semibold text-gray-200 leading-none">
-                    1000
+                    {inviteCount}
                 </span>
 
                 <span className="text-sm text-gray-300 leading-none text-center">
@@ -30,7 +39,7 @@ export const Stats = () => {
 
             <div className="relative bg-gray-700 border border-gray-600 px-4 py-7 flex flex-col items-center justify-center gap-1 rounded-xl">
                 <span className="font-heading text-2xl font-semibold text-gray-200 leading-none">
-                    3°
+                    {rankingPosition ? `${rankingPosition}°` : '-'}
                 </span>
 
                 <span className="text-sm text-gray-300 leading-none text-center">

@@ -1,14 +1,20 @@
 
 import Image from "next/image";
-import logo from '../../../public/assets/logo.svg';
+import logo from '../../../../public/assets/logo.svg';
 import InviteLinkInput from "./InviteLinkInput";
 import RankingContainer from "./Ranking";
 import Stats from "./Stats";
 
+interface InvitePageProps {
+    params: Promise<{
+        subscriberdId: string
+    }>
+}
 
-const InvitePage = () => {
+const InvitePage = async (props: InvitePageProps) => {
+    const { subscriberdId } = await props.params
 
-    const inviteLink = "https://invite.royale/invite/123456789"
+    const inviteLink = `http://localhost:3333/invites/${subscriberdId}`
 
     return (
         <div className="min-h-dvh flex flex-col md:flex-row items-center justify-between gap-16">
@@ -39,7 +45,7 @@ const InvitePage = () => {
 
                     <InviteLinkInput inviteLink={inviteLink} />
 
-                    <Stats />
+                    <Stats subscriberdId={subscriberdId} />
                 </div>
             </div>
 
